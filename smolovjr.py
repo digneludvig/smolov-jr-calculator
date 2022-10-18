@@ -9,7 +9,7 @@ SATURDAY = ((10, 3), 0.85)
 
 def validate_one_rep_max(answers, current):
 	if not current.isnumeric():
-		raise errors.ValidationError("", reason="Enter a number.")
+		raise errors.ValidationError("", reason="Not a valid number.")
 	return True
 
 def round_nearest_multiple(number_to_round, base):
