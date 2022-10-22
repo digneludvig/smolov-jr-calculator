@@ -1,4 +1,5 @@
 import inquirer
+import requests
 from rich.console import Console
 from rich.table import Table
 
@@ -29,8 +30,11 @@ answers = inquirer.prompt(questions)
 one_rep_max = int(answers["one_rep_max"])
 increments = answers["increments"]
 
+# quote
+response = requests.get("https://zenquotes.io/api/random")
+
 print(f"Alright, your one rep max is {one_rep_max} kg and you have chosen a weekly increment of {str(increments)} kg.")
-print("Here is your 3 week long hell: \n")
+print("Below is your 3 week long hell, and remember: " + response.json()[0]["q"] + "\n")
 
 for i in range(3):
 	table = Table(title="Week " + str(i + 1))
@@ -43,10 +47,7 @@ for i in range(3):
 	]
 
 	rows = [
-		[str(x) for x in rows[0]],
-		[str(x) for x in rows[1]],
-		[str(x) for x in rows[2]],
-		[str(x) for x in rows[3]],
+		[str(x) for x in rows[i]] for i in range(4)
 	]
 
 	columns = ["Day", "Sets", "Reps", "Weight [KG]"]
@@ -55,8 +56,9 @@ for i in range(3):
 		table.add_column(column)
 
 	for row in rows:
-		table.add_row(*row, style="bright_red")
+		table.add_row(*row, style="dark_green")
 
 	console = Console()
 	console.print(table)
 	print("\n")
+
